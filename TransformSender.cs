@@ -10,7 +10,7 @@ namespace oi.plugin.transform {
         private bool continuousSendMeasure = false;
         private bool measuring = false;
 
-        public float intervalSec = 2;
+        public float sendInterval = 0.01f;
         private float timer = 0;
         public int transformID;
         public float measureTime = 2;
@@ -21,7 +21,7 @@ namespace oi.plugin.transform {
         private Vector3 position = new Vector3(0, 0, 0);
         private Quaternion rotation = new Quaternion(0, 0, 0, 0);
 
-        public UDPConnector transformSocket;
+        public UDPConnector connector;
 
         void Update() {
             timer += Time.deltaTime;
@@ -41,18 +41,18 @@ namespace oi.plugin.transform {
             }
 
             if (continuousSend) {
-                if (timer >= intervalSec) {
+                if (timer >= sendInterval) {
                     timer = 0;
                     byte[] serialized = TransformSerializer.Serialize(transform, transformID);
-                    transformSocket.SendData(serialized);
+                    connector.SendData(serialized);
                 }
             }
 
             if (continuousSendMeasure) {
-                if (timer >= intervalSec) {
+                if (timer >= sendInterval) {
                     timer = 0;
                     byte[] serialized = TransformSerializer.Serialize(position, rotation, transformID);
-                    transformSocket.SendData(serialized);
+                    connector.SendData(serialized);
                 }
             }
 
