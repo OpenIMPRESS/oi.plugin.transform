@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using oi.core.network;
 
-namespace oi.plugin.transformsend {
+namespace oi.plugin.transform {
 
     public class TransformSender : MonoBehaviour {
         public bool continuousSend = true;
@@ -20,7 +21,7 @@ namespace oi.plugin.transformsend {
         private Vector3 position = new Vector3(0, 0, 0);
         private Quaternion rotation = new Quaternion(0, 0, 0, 0);
 
-        public IMPRESS_UDPClient transformSocket;
+        public UDPConnector transformSocket;
 
         void Update() {
             timer += Time.deltaTime;
